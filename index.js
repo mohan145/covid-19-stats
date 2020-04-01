@@ -5,7 +5,7 @@ const app = express();
 
 app.use("/api", getSummary);
 app.use("/api", liveByCountry);
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3008;
 app.listen(port, (req, res) => {
   console.log(`app running on ${port}`);
 });
