@@ -3,20 +3,12 @@ const request = require("request");
 
 const liveByCountry = async (req, res) => {
   const currentDateTime = new Date(new Date()).toISOString();
-  console.log(currentDateTime);
+  country = req.query.country;
+  timestamp = req.query.timestamp;
 
-  var url1 =
-    `https://api.covid19api.com/live/country/india/status/confirmed/date/` +
-  "2020-04-01T15:15:28.000Z";
-  //currentDateTime;
-  var url2 =
-    `https://api.covid19api.com/live/country/india/status/recovered/date/` +
-  "2020-04-01T15:15:28.000Z";
-  //currentDateTime;
-  var url3 =
-    `https://api.covid19api.com/live/country/india/status/deaths/date/` +
-  "2020-04-01T15:15:28.000Z";
-  //currentDateTime;
+  const url1 = `https://api.covid19api.com/live/country/${country}/status/confirmed/date/${timestamp}`;
+  const url2 = `https://api.covid19api.com/live/country/${country}/status/recovered/date/${timestamp}`;
+  const url3 = `https://api.covid19api.com/live/country/${country}/status/deaths/date/${timestamp}`;
 
   allData = [];
   try {
@@ -45,8 +37,13 @@ function getDatafromURL(url) {
       if (response.statusCode != 200) {
         reject("Invalid status code <" + response.statusCode + ">");
       }
-      data = JSON.parse(body);
-      resolve(data);
+
+      try {
+        var data = JSON.parse(body);
+        resolve(data);
+      } catch (error) {
+        reject("Invalid status code <" + response.statusCode + ">");
+      }
     });
   });
 }
