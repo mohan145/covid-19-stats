@@ -2,14 +2,18 @@ const https = require("https");
 const request = require("request");
 
 const liveByCountry = async (req, res) => {
-  const currentDateTime = new Date(new Date()).toISOString();
   country = req.query.country;
-  timestamp = req.query.timestamp;
+  let timestamp = req.query.timestamp;
 
-  const url1 = `https://api.covid19api.com/live/country/${country}/status/confirmed/date/${timestamp}`;
-  const url2 = `https://api.covid19api.com/live/country/${country}/status/recovered/date/${timestamp}`;
-  const url3 = `https://api.covid19api.com/live/country/${country}/status/deaths/date/${timestamp}`;
+  let req_date=new Date(timestamp)
+  req_date.setDate(req_date.getDate()-1)
+  req_date=req_date.toISOString()
 
+  const url1 = `https://api.covid19api.com/live/country/${country}/status/confirmed/date/${req_date}`;
+  const url2 = `https://api.covid19api.com/live/country/${country}/status/recovered/date/${req_date}`;
+  const url3 = `https://api.covid19api.com/live/country/${country}/status/deaths/date/${req_date}`;
+
+  console.log(url1);
   allData = [];
   try {
     data = await getDatafromURL(url1);
